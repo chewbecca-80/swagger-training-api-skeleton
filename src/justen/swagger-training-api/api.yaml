@@ -1,0 +1,70 @@
+openapi: "3.0.3"
+
+info:
+  title: Echo API
+  description: >-
+    Simple echo API.
+
+    To view the UI, navigate to "{base}/v1/ui"
+    
+    To make REST calls you also must select the "{base}/v1" server and enter the path.
+
+  contact:
+    name: Rebecca Servaites
+    email: kathryn.servaites@udri.udayton.edu
+  version: "1.0"
+
+externalDocs:
+  description: Find out more about Echo server
+  url: 'https://git.act3-ace.com/rebecca.servaites/python-demo-api'
+
+# https://swagger.io/docs/specification/api-host-and-base-path
+servers:
+  - url: '/v1'
+  - url: '{base}/v1'
+    variables:
+      base:
+        default: http://localhost:9090
+        description: Custom base path.
+  
+paths:
+  /health:
+    get:
+      operationId: servaites.python_demo_api.server.get_health
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Server Healthy
+      summary: Server health
+  
+
+  /echo/{message}:
+    get:
+      summary: Generate echo
+      description: Generates a message that repeats the passed string three times.
+      operationId: servaites.python_demo_api.server.get_echo
+      responses:
+        200:
+          description: Repeat message three times
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  echo:
+                    type: string
+                    format: string
+                example: 
+                  echo: "echo echo echo"
+      parameters:
+        - name: message
+          in: path
+          description: The string to repeat.
+          required: true
+          schema:
+            type: string
+            example: "echo"
